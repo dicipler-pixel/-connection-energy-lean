@@ -1,0 +1,1 @@
+{"modules":[{"module":"ConnectionEnergy.Basic","path":"ConnectionEnergy/Basic.lean"}],"expected_theorems":13,"expected_false_controls":3,"root_imports":["ConnectionEnergy.Basic"]}
