@@ -1,1 +1,1 @@
-{"modules": [{"module": "ConnectionEnergy.Basic", "path": "ConnectionEnergy/Basic.lean"}], "expected_theorems": 14, "expected_false_controls": 3, "root_imports": ["ConnectionEnergy.Basic"]}
+{"modules": [{"module": "ConnectionEnergy.Basic", "path": "ConnectionEnergy/Basic.lean"}, {"module": "ConnectionEnergy.Holonomy", "path": "ConnectionEnergy/Holonomy.lean"}], "expected_theorems": 20, "expected_false_controls": 3, "root_imports": ["ConnectionEnergy.Basic", "ConnectionEnergy.Holonomy"]}
