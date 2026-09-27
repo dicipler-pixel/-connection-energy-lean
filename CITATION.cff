@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use these Lean proofs, please cite them as below."
+title: "Non-Normality Is Connection Energy: Lean proofs"
+authors:
+  - family-names: "Beasley"
+    given-names: "Jeromie"
+version: 1.0.0
+date-released: 2026-09-27
+license: MIT
+repository-code: "https://github.com/dicipler-pixel/-connection-energy-lean"
+keywords:
+  - Lean 4
+  - Mathlib
+  - formal verification
+  - non-normal operators
+  - graph connection
+references:
+  - type: article
+    title: "Non-Normality Is Connection Energy"
+    authors:
+      - family-names: "Beasley"
+        given-names: "Jeromie"
+    doi: "10.5281/zenodo.22803572"
