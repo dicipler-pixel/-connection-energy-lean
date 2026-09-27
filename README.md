@@ -6,11 +6,11 @@
 
 [![Lean proof check](https://github.com/dicipler-pixel/-connection-energy-lean/actions/workflows/build.yml/badge.svg)](https://github.com/dicipler-pixel/-connection-energy-lean/actions/workflows/build.yml)
 ![Lean](https://img.shields.io/badge/Lean-v4.34.1-blue)
-![Theorems](https://img.shields.io/badge/theorems-14-2EA043)
+![Theorems](https://img.shields.io/badge/theorems-20-2EA043)
 ![sorry](https://img.shields.io/badge/sorry-0-2EA043)
 ![Code: MIT](https://img.shields.io/badge/code-MIT-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
-[![Paper DOI](https://img.shields.io/badge/paper-10.5281%2Fzenodo.22804072-blue)](https://doi.org/10.5281/zenodo.22804072)
+[![Paper DOI](https://img.shields.io/badge/paper-10.5281%2Fzenodo.22803572-blue)](https://doi.org/10.5281/zenodo.22803572)
 
 Jeromie Beasley
 
@@ -40,8 +40,12 @@ be parallel under the induced transport `X ↦ Aᵢⱼ X Aᵢⱼ†`:
 | (1) | The two orientations of an edge give the same term, so the ordered sum is twice the edge sum and `⅛ ‖[H, H†]‖² = Σ_edges ‖Dᵢ − Aᵢⱼ Dⱼ Aᵢⱼ†‖²` | `orientation_symm` |
 | (2) | `H` is normal exactly when `Dᵢ = Aᵢⱼ Dⱼ Aᵢⱼ†` on every edge | `normal_iff_parallel` |
 | — | The Frobenius energy is the sum of squared moduli of the entries | `frob_eq_sum` |
+| Connection | The edge transport `U(X) = AXA†` ignores the central sign, and `Uⱼᵢ = Uᵢⱼ⁻¹`: `U` is a connection on `End(E)` | `transport_neg`, `transport_inverse` |
+| (3) | Parallel transport composes along a walk (`D_start = W D_end W†`); around a loop a parallel section is fixed by the holonomy, which for unitary `W` is `[D, W] = 0` | `parallel_along`, `ad_fixed_iff_commute`, `parallel_loop_commutes` |
+| Scalar case | For `r = 1` a unit-modulus link leaves a scalar unchanged, so each edge term is `dᵢ − dⱼ`: the weighted Dirichlet energy | `scalar_dirichlet` |
 
-The file is [`ConnectionEnergy/Basic.lean`](ConnectionEnergy/Basic.lean). What is not proved is
+The files are [`ConnectionEnergy/Basic.lean`](ConnectionEnergy/Basic.lean) and
+[`ConnectionEnergy/Holonomy.lean`](ConnectionEnergy/Holonomy.lean). What is not proved is
 in [`LIMITATIONS.md`](LIMITATIONS.md).
 
 ## How it is checked
@@ -53,7 +57,7 @@ Mathlib v4.34.1, independent replay in Lean's kernel checker, an axiom audit (on
 ## The paper
 
 *Non-Normality Is Connection Energy*, Jeromie Beasley. DOI
-[10.5281/zenodo.22804072](https://doi.org/10.5281/zenodo.22804072).
+[10.5281/zenodo.22803572](https://doi.org/10.5281/zenodo.22803572).
 
 ## Citation, licence and AI use
 
