@@ -1,5 +1,5 @@
 /-
-Non-normality is connection energy (Jeromie Beasley, DOI 10.5281/zenodo.22803572).
+Non-normality is connection energy (Jeromie Beasley, DOI 10.5281/zenodo.22804072).
 
 A finite graph `G` on vertices `V`, blocks of size `m`. The operator is a `V × V` block matrix
 `H = D + A`: `D = diag(Dᵢ)` with Hermitian blocks, and `A` anti-Hermitian (`A† = −A`),

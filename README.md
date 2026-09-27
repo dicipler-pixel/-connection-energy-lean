@@ -10,7 +10,7 @@
 ![sorry](https://img.shields.io/badge/sorry-0-2EA043)
 ![Code: MIT](https://img.shields.io/badge/code-MIT-lightgrey)
 ![Text: CC BY 4.0](https://img.shields.io/badge/text-CC%20BY%204.0-lightgrey)
-[![Paper DOI](https://img.shields.io/badge/paper-10.5281%2Fzenodo.22803572-blue)](https://doi.org/10.5281/zenodo.22803572)
+[![Paper DOI](https://img.shields.io/badge/paper-10.5281%2Fzenodo.22804072-blue)](https://doi.org/10.5281/zenodo.22804072)
 
 Jeromie Beasley
 
@@ -53,7 +53,7 @@ Mathlib v4.34.1, independent replay in Lean's kernel checker, an axiom audit (on
 ## The paper
 
 *Non-Normality Is Connection Energy*, Jeromie Beasley. DOI
-[10.5281/zenodo.22803572](https://doi.org/10.5281/zenodo.22803572).
+[10.5281/zenodo.22804072](https://doi.org/10.5281/zenodo.22804072).
 
 ## Citation, licence and AI use
 

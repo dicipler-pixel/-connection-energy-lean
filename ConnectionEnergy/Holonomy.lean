@@ -1,6 +1,6 @@
 /-
 Non-normality is connection energy (Jeromie Beasley, 17 September 2026, DOI
-10.5281/zenodo.22803572): the connection and holonomy statements.
+10.5281/zenodo.22804072): the connection and holonomy statements.
 
 * The induced edge transport `Uᵢⱼ(X) = Aᵢⱼ X Aᵢⱼ†` ignores the central sign (`U` of `−A` is `U`
   of `A`), and `Aⱼᵢ = −Aᵢⱼ†` gives `Uⱼᵢ = Uᵢⱼ⁻¹`: `U` is a connection on `End(E)`.
@@ -30,11 +30,16 @@ theorem transport_neg (A X : Matrix m m ℂ) : edgeTransport (-A) X = edgeTransp
 back is the identity, in both orders. -/
 theorem transport_inverse (A X : Matrix m m ℂ) (h1 : A * Aᴴ = 1) (h2 : Aᴴ * A = 1) :
     edgeTransport (-Aᴴ) (edgeTransport A X) = X ∧ edgeTransport A (edgeTransport (-Aᴴ) X) = X := by
-  simp only [transport_neg, edgeTransport, conjTranspose_conjTranspose]
   constructor
-  · calc Aᴴ * (A * X * Aᴴ) * A = (Aᴴ * A) * X * (Aᴴ * A) := by noncomm_ring
+  · rw [transport_neg]
+    unfold edgeTransport
+    rw [conjTranspose_conjTranspose]
+    calc Aᴴ * (A * X * Aᴴ) * A = (Aᴴ * A) * X * (Aᴴ * A) := by noncomm_ring
       _ = X := by rw [h2, one_mul, mul_one]
-  · calc A * (Aᴴ * X * A) * Aᴴ = (A * Aᴴ) * X * (A * Aᴴ) := by noncomm_ring
+  · rw [transport_neg]
+    unfold edgeTransport
+    rw [conjTranspose_conjTranspose]
+    calc A * (Aᴴ * X * A) * Aᴴ = (A * Aᴴ) * X * (A * Aᴴ) := by noncomm_ring
       _ = X := by rw [h1, one_mul, mul_one]
 
 /-- The end of a walk: each step is a pair (edge matrix, next obstruction block). -/
@@ -56,8 +61,9 @@ theorem parallel_along : ∀ (D : Matrix m m ℂ) (path : List (Matrix m m ℂ �
     obtain ⟨hstep, hrest⟩ := h
     have ih := parallel_along D' rest hrest
     simp only [List.map_cons, List.prod_cons, walkEnd, conjTranspose_mul]
-    rw [hstep, ih]
-    noncomm_ring
+    rw [hstep]
+    conv_lhs => rw [ih]
+    simp only [Matrix.mul_assoc]
 
 /-- For unitary `W`, being fixed by `Ad W` is the same as commuting with `W`. -/
 theorem ad_fixed_iff_commute (W X : Matrix m m ℂ) (h1 : W * Wᴴ = 1) (h2 : Wᴴ * W = 1) :
