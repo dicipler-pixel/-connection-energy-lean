@@ -53,7 +53,8 @@ theorem frob_neg_double (Y : Matrix m m ℂ) : frob (-(Y + Y)) = 4 * frob Y := b
   have h : -(Y + Y) * (-(Y + Y))ᴴ = Y * Yᴴ + Y * Yᴴ + (Y * Yᴴ + Y * Yᴴ) := by
     rw [conjTranspose_neg, conjTranspose_add]
     noncomm_ring
-  rw [h, trace_add, trace_add, trace_add, Complex.add_re, Complex.add_re, Complex.add_re]
+  rw [h]
+  simp only [trace_add, Complex.add_re]
   ring
 
 variable (G : SimpleGraph V) [DecidableRel G.Adj]
@@ -86,7 +87,7 @@ theorem self_commutator {D : V → Matrix m m ℂ} {A : Matrix V V (Matrix m m �
 /-- The blocks of `[D, A]`. -/
 theorem commutator_block (D : V → Matrix m m ℂ) (A : Matrix V V (Matrix m m ℂ)) (i j : V) :
     (diagonal D * A - A * diagonal D) i j = D i * A i j - A i j * D j := by
-  rw [sub_apply, diagonal_mul, mul_diagonal]
+  rw [Matrix.sub_apply, diagonal_mul, mul_diagonal]
 
 /-- On an edge, `[D, A]ᵢⱼ = (Dᵢ − Aᵢⱼ Dⱼ Aᵢⱼ†) Aᵢⱼ`. -/
 theorem edge_factor {D : V → Matrix m m ℂ} {A : Matrix V V (Matrix m m ℂ)}
@@ -116,7 +117,7 @@ theorem energy_identity {D : V → Matrix m m ℂ} {A : Matrix V V (Matrix m m �
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
-  rw [neg_apply, add_apply, commutator_block, frob_neg_double, edge_energy h]
+  rw [Matrix.neg_apply, Matrix.add_apply, commutator_block, frob_neg_double, edge_energy h]
 
 /-- **The two orientations of an edge give the same term.** -/
 theorem orientation_symm {D : V → Matrix m m ℂ} {A : Matrix V V (Matrix m m ℂ)}
@@ -125,7 +126,7 @@ theorem orientation_symm {D : V → Matrix m m ℂ} {A : Matrix V V (Matrix m m 
   obtain ⟨hU1, hU2⟩ := h.unitary i j hij
   have hji : A j i = -(A i j)ᴴ := by
     have e := congrFun (congrFun h.anti i) j
-    rw [conjTranspose_apply, neg_apply, star_eq_conjTranspose] at e
+    rw [conjTranspose_apply, Matrix.neg_apply, star_eq_conjTranspose] at e
     rw [← conjTranspose_conjTranspose (A j i), e, conjTranspose_neg]
   rw [hji, conjTranspose_neg, conjTranspose_conjTranspose]
   have e : (A i j)ᴴ * (A i j * D j * (A i j)ᴴ) * A i j = D j := by
@@ -137,34 +138,33 @@ theorem orientation_symm {D : V → Matrix m m ℂ} {A : Matrix V V (Matrix m m 
     noncomm_ring
   rw [key, frob_neg, frob_unitary_conj _ _ hU1 hU2]
 
+theorem double_eq_zero_iff (X : Matrix V V (Matrix m m ℂ)) : X + X = 0 ↔ X = 0 := by
+  constructor
+  · intro hc
+    ext i j a b
+    have := congrFun (congrFun (congrFun (congrFun hc i) j) a) b
+    simp only [Matrix.add_apply, Matrix.zero_apply] at this
+    exact add_self_eq_zero.mp this
+  · intro hc
+    rw [hc, add_zero]
+
 /-- **Normality (equation (2)).** `H` is normal exactly when `D` is parallel along every edge:
 `Dᵢ = Aᵢⱼ Dⱼ Aᵢⱼ†`. -/
 theorem normal_iff_parallel {D : V → Matrix m m ℂ} {A : Matrix V V (Matrix m m ℂ)}
     (h : Transport G D A) :
     (diagonal D + A) * (diagonal D + A)ᴴ = (diagonal D + A)ᴴ * (diagonal D + A) ↔
       ∀ i j, G.Adj i j → D i = A i j * D j * (A i j)ᴴ := by
-  rw [← sub_eq_zero, self_commutator h, neg_eq_zero]
-  set C := diagonal D * A - A * diagonal D
-  have hCC : C + C = 0 ↔ C = 0 := by
-    constructor
-    · intro hc
-      ext i j a b
-      have := congrFun (congrFun (congrFun (congrFun hc i) j) a) b
-      simp only [add_apply, zero_apply] at this
-      exact add_self_eq_zero.mp this
-    · intro hc
-      rw [hc, add_zero]
-  rw [hCC]
+  rw [← sub_eq_zero, self_commutator h, neg_eq_zero, double_eq_zero_iff]
   constructor
   · intro hc i j hij
     have hb := congrFun (congrFun hc i) j
-    rw [commutator_block, zero_apply, edge_factor h hij] at hb
+    rw [commutator_block, Matrix.zero_apply, edge_factor h hij] at hb
     have := congrArg (· * (A i j)ᴴ) hb
     simp only [Matrix.zero_mul, Matrix.mul_assoc, (h.unitary i j hij).1, Matrix.mul_one] at this
     rw [sub_eq_zero.mp this, Matrix.mul_assoc]
   · intro hp
     ext1 i j
-    rw [commutator_block, zero_apply]
+    rw [commutator_block, Matrix.zero_apply]
     by_cases hij : G.Adj i j
     · rw [edge_factor h hij, ← hp i j hij, sub_self, Matrix.zero_mul]
     · rw [h.support i j hij, Matrix.mul_zero, Matrix.zero_mul, sub_zero]
